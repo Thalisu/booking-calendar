@@ -53,10 +53,7 @@ const Scheduler: React.FC<SchedulerProps> = ({
       {currentStep === "calendar" ? (
         <div className="calendar-step">
           <h3 className="text-lg font-medium mb-3">Selecione uma data</h3>
-          <Calendar
-            locale={locale}
-            onClick={() => setTimeout(handleDateSelect, 100)}
-          />
+          <Calendar locale={locale} />
           {startDate && (
             <div className="mt-4">
               <button
