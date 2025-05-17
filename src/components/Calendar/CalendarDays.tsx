@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import type { ICalendarDay } from "../../types";
 import appointmentContext from "../../context/appointment.context";
+import CalendarDayPicker from "./CalendarDayPicker";
 
 interface IProps {
   currentDate: Date;
@@ -8,15 +9,17 @@ interface IProps {
 }
 
 const CalendarDays = ({ calendarDays, currentDate }: IProps) => {
-  const { setStartDate } = useContext(appointmentContext);
+  const { setStartDate, startDate } = useContext(appointmentContext);
+
   return (
     <>
       {calendarDays.map((calendarDay, index) =>
         calendarDay.day ? (
-          <button
+          <CalendarDayPicker
             key={index}
             disabled={calendarDay.disabled}
-            className="w-full max-w-8 aspect-square  flex items-center justify-center text-sm hover:bg-gray-100 rounded-full"
+            isSelected={startDate?.getDate() === calendarDay.day}
+            day={calendarDay.day}
             onClick={() => {
               const startDate = new Date(
                 currentDate.getFullYear(),
@@ -25,9 +28,7 @@ const CalendarDays = ({ calendarDays, currentDate }: IProps) => {
               );
               setStartDate(startDate);
             }}
-          >
-            {calendarDay.day}
-          </button>
+          />
         ) : (
           <div className="w-full max-w-8 aspect-square"></div>
         )
