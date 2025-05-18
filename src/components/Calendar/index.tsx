@@ -2,22 +2,19 @@ import CalendarHeader from "./CalendarHeader";
 import CalendarWeekSection from "./CalendarWeekSection";
 import { useCalendar } from "../../hooks/useCalendar";
 import CalendarDays from "./CalendarDays";
-import type { HTMLAttributes } from "react";
+import { useAppointmentData } from "../../hooks/useAppointmentData";
 
-interface IProps extends HTMLAttributes<HTMLDivElement> {
-  locale: string;
-}
-
-const Calendar = ({ locale = "pt-BR", ...props }: IProps) => {
+const Calendar = () => {
   const { currentDate, handlers, days, isToday } = useCalendar();
+  const { calendarProps, locale } = useAppointmentData();
 
   return (
     <div
-      className="w-full max-w-md flex flex-col p-4 box-border bg-white rounded-lg gap-3 min-w-80"
+      className="w-full max-w-md flex flex-col p-4 box-border rounded-lg gap-3 "
       role="application"
       aria-label="Calendar"
       aria-roledescription="Calendar"
-      {...props}
+      {...calendarProps}
     >
       <CalendarHeader
         locale={locale}
@@ -26,7 +23,7 @@ const Calendar = ({ locale = "pt-BR", ...props }: IProps) => {
         onNextMonth={handlers.handleNextMonth}
         isToday={isToday}
       />
-      <div className="grid grid-cols-7 gap-2 place-items-center">
+      <div className="grid grid-cols-7 gap-2 place-items-center h-72">
         <CalendarWeekSection locale={locale} />
         <CalendarDays calendarDays={days} currentDate={currentDate} />
       </div>

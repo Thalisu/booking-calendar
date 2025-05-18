@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ICalendarDay } from "../types";
+import { useAppointment } from "./useAppointment";
 
 export const useCalendar = () => {
   const today = useRef(new Date());
   const [currentDate, setCurrentDate] = useState(today.current);
-
   const [days, setDays] = useState<ICalendarDay[]>([]);
+  const { setStartDate } = useAppointment();
 
   useEffect(() => {
     const year = currentDate.getFullYear();
@@ -36,13 +37,15 @@ export const useCalendar = () => {
       if (newDate.getMonth() < today.current.getMonth()) {
         return prev;
       }
+      setStartDate(null);
       return newDate;
     });
-  }, []);
+  }, [setStartDate]);
 
   const handleNextMonth = useCallback(() => {
+    setStartDate(null);
     setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
-  }, []);
+  }, [setStartDate]);
 
   const isToday = useMemo(() => {
     return (
