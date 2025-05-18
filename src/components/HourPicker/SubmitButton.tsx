@@ -8,7 +8,7 @@ const SubmitButton = ({ handleBackToCalendar }: IProps) => {
   const { isSubmitting, handleSchedule, isReady } = useAppointment();
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-3 mt-auto">
       <button
         onClick={handleBackToCalendar}
         className="py-2 px-4 rounded-md text-blue-600 border border-blue-600 hover:bg-blue-50"
