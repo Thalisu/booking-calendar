@@ -4,14 +4,19 @@ import Calendar from "../Calendar";
 
 interface IProps {
   handleDateSelect: () => void;
+  toAnimate?: boolean;
 }
 
-const CalendarStep = ({ handleDateSelect }: IProps) => {
+const CalendarStep = ({ handleDateSelect, toAnimate }: IProps) => {
   const { label } = useAppointmentData();
   const { startDate } = useAppointment();
 
   return (
-    <>
+    <div
+      className={`transition-opacity ${
+        toAnimate ? "opacity-0" : "opacity-100"
+      }`}
+    >
       {label && (
         <h3 className="text-lg font-medium mb-3">Selecione uma data</h3>
       )}
@@ -26,7 +31,7 @@ const CalendarStep = ({ handleDateSelect }: IProps) => {
           Continuar para selecionar horário
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

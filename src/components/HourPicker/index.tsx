@@ -5,9 +5,10 @@ import SubmitButton from "./SubmitButton";
 
 interface IProps {
   handleBackToCalendar: () => void;
+  toAnimate?: boolean;
 }
 
-const HourPicker = ({ handleBackToCalendar }: IProps) => {
+const HourPicker = ({ handleBackToCalendar, toAnimate }: IProps) => {
   const { startDate } = useAppointment();
 
   if (!startDate) {
@@ -15,7 +16,10 @@ const HourPicker = ({ handleBackToCalendar }: IProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div
+      className="flex flex-col gap-4 w-full h-full transition-opacity"
+      style={{ opacity: toAnimate ? 0 : 1 }}
+    >
       <HourPickerHeader handleBackToCalendar={handleBackToCalendar} />
       <Hours />
       <SubmitButton handleBackToCalendar={handleBackToCalendar} />
