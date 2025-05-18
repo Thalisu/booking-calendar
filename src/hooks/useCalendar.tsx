@@ -25,7 +25,11 @@ export const useCalendar = () => {
     }
 
     for (let i = 1; i <= totalDays; i++) {
-      daysArray.push({ day: i, disabled: false });
+      console.log(today.current.getDate());
+      daysArray.push({
+        day: i,
+        disabled: today.current.getDate() > i,
+      });
     }
 
     setDays(daysArray);

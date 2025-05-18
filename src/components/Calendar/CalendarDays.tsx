@@ -30,7 +30,7 @@ const CalendarDays = ({ calendarDays, currentDate }: IProps) => {
             }}
           />
         ) : (
-          <div className="w-full max-w-8 aspect-square"></div>
+          <div className="w-full max-w-8 aspect-square" key={index}></div>
         )
       )}
     </>
