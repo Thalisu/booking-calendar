@@ -1,45 +1,33 @@
-import type { JSX } from "react";
+import type { HTMLAttributes, JSX } from "react";
 import Scheduler from "./components/Scheduler";
 import AppointmentProvider from "./providers/Appointment.provider";
+import AppointmentDataProvider from "./providers/AppointmentData.provider";
+import type { IAppointmentDataContext } from "./types";
 
-interface IProps {
-  locale?: string;
-  duration?: number;
-  minHour?: number;
-  maxHour?: number;
-  interval?: number;
-  onSchedule?: (startDate: Date, endDate: Date) => void;
+interface IProps extends HTMLAttributes<HTMLDivElement> {
+  appointmentData: IAppointmentDataContext;
 }
 
 /**
- * @param {string} props.locale - O locale para formatar datas
- * @param {number} props.duration - Duração do agendamento em horas
- * @param {number} props.minHour - Hora mínima disponível para agendamento
- * @param {number} props.maxHour - Hora máxima disponível para agendamento
- * @param {number} props.interval - Intervalo entre horários disponíveis em minutos
- * @param {function} props.onSchedule - Função a ser chamada quando um agendamento é confirmado
+ * @param {object} props.label - Label to use in the scheduler, both calendar and hour picker
+ * @param {string} props.locale - Locale to format dates
+ * @param {number} props.duration - Duration of the appointment in hours
+ * @param {number} props.minHour - Minimum hour available for appointment
+ * @param {number} props.maxHour - Maximum hour available for appointment
+ * @param {function} props.onSchedule - Function to be called when an appointment is confirmed
  * @returns {JSX.Element}
  */
 
-function App({
-  locale = "pt-BR",
-  duration = 1,
-  minHour = 8,
-  maxHour = 18,
-  interval = 30,
-  onSchedule = () => {},
-}: IProps): JSX.Element {
+function App(props: IProps): JSX.Element {
+  const { appointmentData, ...rest } = props;
+
   return (
-    <div className="max-w-md w-full mx-auto p-4">
-      <AppointmentProvider duration={duration}>
-        <Scheduler
-          locale={locale}
-          minHour={minHour}
-          maxHour={maxHour}
-          interval={interval}
-          onSchedule={onSchedule}
-        />
-      </AppointmentProvider>
+    <div className="max-w-md w-full mx-auto bg-white rounded-lg" {...rest}>
+      <AppointmentDataProvider {...appointmentData}>
+        <AppointmentProvider>
+          <Scheduler />
+        </AppointmentProvider>
+      </AppointmentDataProvider>
     </div>
   );
 }
