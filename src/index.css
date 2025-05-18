@@ -8,3 +8,11 @@
 button {
   cursor: pointer;
 }
+
+.container {
+  padding: 0;
+}
+
+@media (min-width: 384px) {
+  .container { padding: 1rem }
+}

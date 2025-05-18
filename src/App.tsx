@@ -22,7 +22,10 @@ function App(props: IProps): JSX.Element {
   const { appointmentData, ...rest } = props;
 
   return (
-    <div className="max-w-md w-full mx-auto bg-white rounded-lg" {...rest}>
+    <div
+      className="max-w-md w-full mx-auto bg-white rounded-lg container"
+      {...rest}
+    >
       <AppointmentDataProvider {...appointmentData}>
         <AppointmentProvider>
           <Scheduler />
