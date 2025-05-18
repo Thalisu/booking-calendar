@@ -1,18 +1,19 @@
 import { useCallback, useState } from "react";
 import appointmentContext from "../context/appointment.context";
+import { useAppointmentData } from "../hooks/useAppointmentData";
 
 interface IProps {
   children: React.ReactNode;
-
-  duration?: number;
 }
 
-const AppointmentProvider = ({ children, duration = 1 }: IProps) => {
+const AppointmentProvider = ({ children }: IProps) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { duration, onSchedule } = useAppointmentData();
 
-  const handleSetStartDate = useCallback((date: Date) => {
+  const handleSetStartDate = useCallback((date: Date | null) => {
     setStartDate(date);
   }, []);
 
@@ -36,6 +37,14 @@ const AppointmentProvider = ({ children, duration = 1 }: IProps) => {
     [duration, startDate]
   );
 
+  const handleSchedule = useCallback(async () => {
+    if (!startDate || !endDate) return;
+
+    setIsSubmitting(true);
+    await onSchedule(startDate, endDate);
+    setIsSubmitting(false);
+  }, [endDate, onSchedule, startDate]);
+
   return (
     <appointmentContext.Provider
       value={{
@@ -44,6 +53,8 @@ const AppointmentProvider = ({ children, duration = 1 }: IProps) => {
         isReady,
         setStartDate: handleSetStartDate,
         setStartHour: handleSetStartHour,
+        isSubmitting,
+        handleSchedule,
       }}
     >
       {children}

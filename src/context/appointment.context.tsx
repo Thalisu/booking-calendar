@@ -4,8 +4,10 @@ interface IAppointmentContext {
   startDate: Date | null;
   endDate: Date | null;
   isReady: boolean;
-  setStartDate: (date: Date) => void;
+  setStartDate: (date: Date | null) => void;
   setStartHour: (date: Date) => void;
+  isSubmitting: boolean;
+  handleSchedule: () => Promise<void>;
 }
 
 const appointmentContext = createContext<IAppointmentContext>({
@@ -14,6 +16,8 @@ const appointmentContext = createContext<IAppointmentContext>({
   isReady: false,
   setStartDate: () => {},
   setStartHour: () => {},
+  isSubmitting: false,
+  handleSchedule: () => Promise.resolve(),
 });
 
 export default appointmentContext;
